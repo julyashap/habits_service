@@ -46,8 +46,8 @@ def create_periodic_task(periodicity, habit_pk):
 
     PeriodicTask.objects.create(
         interval=schedule,
-        name='Send telegram message',
+        name=f'Send telegram message {habit_pk}',
         task='habits.tasks.send_tg_message',
-        args=json.dumps([habit_pk]),
+        args=json.dumps(habit_pk),
         start_time=start_time
     )
