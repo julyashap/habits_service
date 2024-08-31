@@ -9,7 +9,13 @@ class UserCreateAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
 
 
-class UserUpdateAPIView(generics.CreateAPIView):
+class UserUpdateAPIView(generics.UpdateAPIView):
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+    permission_classes = [IsCurrentUser]
+
+
+class UserRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     permission_classes = [IsCurrentUser]
