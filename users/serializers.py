@@ -5,7 +5,7 @@ from users.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['pk', 'email', 'password', 'first_name', 'last_name', 'avatar', 'phone', 'country', 'tg_chat_id']
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
