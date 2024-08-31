@@ -159,4 +159,5 @@ CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_TIMEZONE = TIME_ZONE
 
+TG_URL = 'https://api.telegram.org/bot'
 TG_TOKEN = os.getenv('TG_TOKEN')
