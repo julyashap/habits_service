@@ -162,3 +162,4 @@ CELERY_TIMEZONE = TIME_ZONE
 
 TG_URL = 'https://api.telegram.org/bot'
 TG_TOKEN = os.getenv('TG_TOKEN')
+TG_BOT_LINK = 'https://t.me/habittt_reminder_bot'
