@@ -11,6 +11,9 @@ class HabitOrRewardValidator:
         if not is_current_habit_enjoyable and related_habit and reward:
             raise ValidationError('У полезной привычки нельзя указывать связанную '
                                   'привычку и вознаграждение одновременно!')
+        elif not is_current_habit_enjoyable and not related_habit and not reward:
+            raise ValidationError('У полезной привычки обязательно должна быть либо связанная '
+                                  'привычка, либо вознаграждение!')
 
 
 class TimeToCompleteValidator:
