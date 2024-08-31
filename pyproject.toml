@@ -20,6 +20,8 @@ django-celery-beat = "^2.7.0"
 requests = "^2.32.3"
 drf-yasg = "^1.21.7"
 psycopg2-binary = "^2.9.9"
+coverage = "^7.6.1"
+flake8 = "^7.1.1"
 
 
 [build-system]
