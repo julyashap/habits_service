@@ -21,6 +21,7 @@ class HabitViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action != 'list':
             self.permission_classes = [IsOwner]
+        return super().get_permissions()
 
     def list(self, request, *args, **kwargs):
         self.queryset = Habit.objects.filter(user=request.user)
