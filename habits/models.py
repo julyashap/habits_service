@@ -6,9 +6,9 @@ NULLABLE = {'null': True, 'blank': True}
 
 class Habit(models.Model):
     PERIODICITY_CHOICES = (
+        ('hourly', 'раз в час'),
         ('daily', 'раз в день'),
         ('weekly', 'раз в неделю'),
-        ('monthly', 'раз в месяц'),
     )
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='пользователь')
