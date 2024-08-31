@@ -28,17 +28,14 @@ def send_tg_message(habit_pk):
 def create_periodic_task(periodicity, habit_pk):
     every = 1
     period = IntervalSchedule.DAYS
-    for_start_time = {'days': 1}
 
     if periodicity == 'hourly':
         period = IntervalSchedule.HOURS
-        for_start_time = {'hours': 1}
     elif periodicity == 'weekly':
         every = 7
-        for_start_time = {'days': 7}
 
     schedule = IntervalSchedule.objects.create(every=every, period=period)
-    start_time = Habit.objects.filter(pk=habit_pk).first().created_at + timedelta(**for_start_time)
+    start_time = Habit.objects.get(pk=habit_pk).time.astimezone(ZONE) + timedelta(minutes=2)
 
     PeriodicTask.objects.create(
         interval=schedule,
