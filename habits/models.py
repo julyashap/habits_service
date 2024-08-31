@@ -20,7 +20,7 @@ class Habit(models.Model):
     periodicity = models.CharField(max_length=10, choices=PERIODICITY_CHOICES,
                                    default='daily', verbose_name='периодичность')
     reward = models.CharField(max_length=400, verbose_name='вознаграждение', **NULLABLE)
-    time_to_complete = models.TimeField(verbose_name='время на выполнение')
+    time_to_complete = models.DurationField(verbose_name='время на выполнение')
     is_public = models.BooleanField(verbose_name='признак публичности', default=False)
     created_at = models.DateTimeField(verbose_name='дата создания', **NULLABLE)
 
