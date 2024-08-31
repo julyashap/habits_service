@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'django_celery_beat',
+    'drf_yasg',
 
     'users',
     'habits'
@@ -153,3 +155,10 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CELERY_BROKER_URL = os.getenv('REDIS_URL')
+CELERY_RESULT_BACKEND = os.getenv('REDIS_URL')
+CELERY_TIMEZONE = TIME_ZONE
+
+TG_URL = 'https://api.telegram.org/bot'
+TG_TOKEN = os.getenv('TG_TOKEN')

@@ -12,5 +12,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=50, verbose_name='номер', **NULLABLE)
     country = models.CharField(max_length=100, verbose_name='страна', **NULLABLE)
 
+    tg_chat_id = models.CharField(max_length=50, verbose_name='идентификатор TG-чата', **NULLABLE)
+
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
