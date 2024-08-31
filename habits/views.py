@@ -7,7 +7,7 @@ from habits.models import Habit
 from habits.paginators import HabitPaginator
 from habits.permissions import IsOwner
 from habits.serializers import HabitSerializer, HabitPublicSerializer
-from habits.services import NOW, create_periodic_task, send_tg_message
+from habits.services import create_periodic_task
 
 
 class HabitViewSet(viewsets.ModelViewSet):
@@ -16,7 +16,7 @@ class HabitViewSet(viewsets.ModelViewSet):
     pagination_class = HabitPaginator
 
     def perform_create(self, serializer):
-        habit = serializer.save(user=self.request.user, created_at=NOW)
+        habit = serializer.save(user=self.request.user)
         habit.save()
 
         if not habit.is_enjoyable and habit.user.tg_chat_id:
