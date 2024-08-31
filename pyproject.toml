@@ -19,6 +19,7 @@ celery = "^5.4.0"
 redis = "^5.0.8"
 django-celery-beat = "^2.7.0"
 requests = "^2.32.3"
+drf-yasg = "^1.21.7"
 
 
 [build-system]
