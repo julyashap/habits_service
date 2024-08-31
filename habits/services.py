@@ -13,8 +13,13 @@ NOW = datetime.now(ZONE)
 def send_tg_message(habit_pk):
     habit = Habit.objects.get(pk=habit_pk)
 
+    if habit.related_habit:
+        text_reward = f'приятной привычкой:\n{habit.related_habit}'
+    elif habit.reward:
+        text_reward = habit.reward
+
     params = {
-        'text': f'Выполните привычку:\n\n{habit}',
+        'text': f'Выполните привычку:\n\n{habit}\nза {habit.time_to_complete}\n\nИ вознаградите себя {text_reward}!',
         'chat_id': habit.user.tg_chat_id,
     }
     requests.get(f'{settings.TG_URL}{settings.TG_TOKEN}/sendMessage', params=params)
