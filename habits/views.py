@@ -10,6 +10,10 @@ class HabitViewSet(viewsets.ModelViewSet):
     queryset = Habit.objects.all()
     pagination_class = HabitPaginator
 
+    def perform_create(self, serializer):
+        habit = serializer.save(user=self.request.user)
+        habit.save()
+
     def get_permissions(self):
         if self.action != 'list':
             self.permission_classes = [IsOwner]
