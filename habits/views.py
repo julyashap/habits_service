@@ -1,9 +1,13 @@
-from rest_framework import viewsets, generics
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import viewsets, generics, views, status
+from rest_framework.response import Response
+from config import settings
 from habits.models import Habit
 from habits.paginators import HabitPaginator
 from habits.permissions import IsOwner
 from habits.serializers import HabitSerializer, HabitPublicSerializer
-from habits.services import NOW, create_periodic_task
+from habits.services import NOW, create_periodic_task, send_tg_message
 
 
 class HabitViewSet(viewsets.ModelViewSet):
@@ -36,3 +40,13 @@ class HabitPublicListAPIView(generics.ListAPIView):
     def get_queryset(self):
         self.queryset = Habit.objects.exclude(user=self.request.user).filter(is_public=True)
         return super().get_queryset()
+
+
+class GetTGBotLink(views.APIView):
+    @swagger_auto_schema(
+        responses={
+            200: openapi.Response("TG Bot link")
+        }
+    )
+    def get(self, *args, **kwargs):
+        return Response({'tg_bot_link': settings.TG_BOT_LINK}, status=status.HTTP_200_OK)
