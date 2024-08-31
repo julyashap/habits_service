@@ -9,8 +9,8 @@ class HabitSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = ['pk', 'place', 'time', 'action', 'is_enjoyable', 'related_habit', 'periodicity', 'reward',
-                  'time_to_complete', 'is_public', 'created_at', 'user']
-        read_only_fields = ['pk', 'user', 'created_at']
+                  'time_to_complete', 'is_public', 'user']
+        read_only_fields = ['pk', 'user']
         validators = [HabitOrRewardValidator(), TimeToCompleteValidator(),
                       IsEnjoyableHabitValidator(), EnjoyableHabitValidator()]
 
@@ -21,4 +21,4 @@ class HabitPublicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Habit
         fields = ['pk', 'place', 'time', 'action', 'is_enjoyable', 'related_habit', 'periodicity', 'reward',
-                  'time_to_complete', 'created_at', 'user']
+                  'time_to_complete', 'user']
