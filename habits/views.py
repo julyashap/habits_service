@@ -3,7 +3,7 @@ from habits.models import Habit
 from habits.paginators import HabitPaginator
 from habits.permissions import IsOwner
 from habits.serializers import HabitSerializer
-from habits.services import NOW
+from habits.services import NOW, create_periodic_task
 
 
 class HabitViewSet(viewsets.ModelViewSet):
@@ -14,6 +14,9 @@ class HabitViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         habit = serializer.save(user=self.request.user, created_at=NOW)
         habit.save()
+
+        if habit.user.tg_chat_id:
+            create_periodic_task(habit.periodicity, habit.pk)
 
     def get_permissions(self):
         if self.action != 'list':
