@@ -3,6 +3,7 @@ from habits.models import Habit
 from habits.paginators import HabitPaginator
 from habits.permissions import IsOwner
 from habits.serializers import HabitSerializer
+from habits.services import NOW
 
 
 class HabitViewSet(viewsets.ModelViewSet):
@@ -11,7 +12,7 @@ class HabitViewSet(viewsets.ModelViewSet):
     pagination_class = HabitPaginator
 
     def perform_create(self, serializer):
-        habit = serializer.save(user=self.request.user)
+        habit = serializer.save(user=self.request.user, created_at=NOW)
         habit.save()
 
     def get_permissions(self):
