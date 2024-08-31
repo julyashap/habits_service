@@ -6,6 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['pk', 'email', 'password', 'first_name', 'last_name', 'avatar', 'phone', 'country', 'tg_chat_id']
+        read_only_fields = ['pk']
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
