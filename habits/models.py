@@ -22,3 +22,11 @@ class Habit(models.Model):
     reward = models.CharField(max_length=400, verbose_name='вознаграждение', **NULLABLE)
     time_to_complete = models.TimeField(verbose_name='время на выполнение')
     is_public = models.BooleanField(verbose_name='признак публичности', default=False)
+    created_at = models.DateTimeField(verbose_name='дата создания', **NULLABLE)
+
+    def __str__(self):
+        return f"Я буду {self.action} в {self.time} в {self.place}"
+
+    class Meta:
+        verbose_name = 'привычка'
+        verbose_name_plural = 'привычки'
