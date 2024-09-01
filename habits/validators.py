@@ -43,3 +43,11 @@ class EnjoyableHabitValidator:
         if is_current_habit_enjoyable:
             if related_habit or reward:
                 raise ValidationError('У приятной привычки не может быть связанной привычки или вознаграждения!')
+
+
+class PeriodicityValidator:
+    def __call__(self, value):
+        every = dict(value).get('periodicity_every')
+
+        if every > 7:
+            raise ValidationError('Привычку нельзя выполнять реже, чем раз в неделю!')
