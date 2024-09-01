@@ -25,6 +25,7 @@ def send_tg_message(habit_pk):
         'text': f'Выполните привычку:\n\n{habit}\nза {habit.time_to_complete}\n\nИ вознаградите себя {text_reward}!',
         'chat_id': habit.user.tg_chat_id,
     }
+
     response = requests.get(f'{settings.TG_URL}{settings.TG_TOKEN}/sendMessage', params=params)
 
     if response.status_code == status.HTTP_400_BAD_REQUEST:
@@ -35,13 +36,12 @@ def send_tg_message(habit_pk):
 def create_periodic_task(every, time, habit_pk):
     period = IntervalSchedule.DAYS
     schedule = IntervalSchedule.objects.create(every=every, period=period)
-
-    start_time = time.astimezone(ZONE) + timedelta(minutes=2)
+    start_time = time.astimezone(ZONE)
 
     PeriodicTask.objects.create(
         interval=schedule,
         name=f'Send telegram message {habit_pk}',
         task='habits.tasks.send_tg_message',
-        args=json.dumps(habit_pk),
+        args=json.dumps([habit_pk]),
         start_time=start_time
     )
