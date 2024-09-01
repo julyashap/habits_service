@@ -20,7 +20,7 @@ class HabitViewSet(viewsets.ModelViewSet):
         habit.save()
 
         if not habit.is_enjoyable and habit.user.tg_chat_id:
-            create_periodic_task(habit.periodicity, habit.pk)
+            create_periodic_task(habit.periodicity_every, habit.time, habit.pk)
 
     def get_permissions(self):
         if self.action != 'list':
