@@ -9,7 +9,7 @@
       "action": "что-то",
       "is_enjoyable": true,
       "related_habit": null,
-      "periodicity": "daily",
+      "periodicity_every": 1,
       "reward": null,
       "time_to_complete": "00:02:00",
       "is_public": false
@@ -25,7 +25,7 @@
       "action": "что-то",
       "is_enjoyable": false,
       "related_habit": null,
-      "periodicity": "weekly",
+      "periodicity_every": 3,
       "reward": "покушать",
       "time_to_complete": "00:01:00",
       "is_public": true
