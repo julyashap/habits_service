@@ -27,7 +27,7 @@ class HabitTestCase(APITestCase):
             'action': 'test',
             'is_enjoyable': False,
             'related_habit': self.enjoyable_habit.pk,
-            'periodicity': 'hourly',
+            'periodicity_every': 3,
             'time_to_complete': timedelta(minutes=1),
             'is_public': True
         }
@@ -44,7 +44,7 @@ class HabitTestCase(APITestCase):
             'action': 'test',
             'is_enjoyable': False,
             'related_habit': self.enjoyable_habit.pk,
-            'periodicity': 'hourly',
+            'periodicity_every': 3,
             'time_to_complete': '00:01:00',
             'is_public': True,
             'reward': None
@@ -61,7 +61,6 @@ class HabitTestCase(APITestCase):
             'action': 'test',
             'is_enjoyable': False,
             'related_habit': not_enjoyable_habit.pk,
-            'periodicity': 'hourly',
             'time_to_complete': timedelta(minutes=3),
             'is_public': True,
             'reward': 'test',
@@ -72,7 +71,6 @@ class HabitTestCase(APITestCase):
             'time': '2024-08-31 12:00:00',
             'action': 'test',
             'is_enjoyable': False,
-            'periodicity': 'hourly',
             'time_to_complete': timedelta(minutes=1),
             'is_public': True,
         }
@@ -83,7 +81,16 @@ class HabitTestCase(APITestCase):
             'action': 'test',
             'is_enjoyable': True,
             'related_habit': not_enjoyable_habit.pk,
-            'periodicity': 'hourly',
+            'time_to_complete': timedelta(minutes=1),
+            'is_public': True,
+        }
+
+        data_periodicity_every = {
+            'place': 'test',
+            'time': '2024-08-31 12:00:00',
+            'action': 'test',
+            'is_enjoyable': True,
+            'periodicity_every': 8,
             'time_to_complete': timedelta(minutes=1),
             'is_public': True,
         }
@@ -110,6 +117,12 @@ class HabitTestCase(APITestCase):
             "У приятной привычки не может быть связанной привычки или вознаграждения!"
         ])
 
+        response = self.client.post(reverse('habits:habits-list'), data=data_periodicity_every)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.json().get('non_field_errors'), [
+            "Привычку нельзя выполнять реже, чем раз в неделю!"
+        ])
+
     def test_retrieve_lesson(self):
         # тестирование метода владельцем
         self.client.force_authenticate(user=self.user_owner)
@@ -124,7 +137,7 @@ class HabitTestCase(APITestCase):
             'action': 'test',
             'is_enjoyable': True,
             'related_habit': None,
-            'periodicity': 'daily',
+            'periodicity_every': 1,
             'time_to_complete': '00:01:00',
             'is_public': False,
             'reward': None
@@ -158,7 +171,7 @@ class HabitTestCase(APITestCase):
                     'action': 'test',
                     'is_enjoyable': True,
                     'related_habit': None,
-                    'periodicity': 'daily',
+                    'periodicity_every': 1,
                     'time_to_complete': '00:01:00',
                     'is_public': False,
                     'reward': None
@@ -171,7 +184,7 @@ class HabitTestCase(APITestCase):
                     'action': 'test',
                     'is_enjoyable': True,
                     'related_habit': None,
-                    'periodicity': 'daily',
+                    'periodicity_every': 1,
                     'time_to_complete': '00:01:00',
                     'is_public': False,
                     'reward': None
@@ -198,7 +211,7 @@ class HabitTestCase(APITestCase):
             'time': '2024-08-31 12:00:00',
             'action': 'test-update',
             'is_enjoyable': True,
-            'periodicity': 'weekly',
+            'periodicity_every': 7,
             'time_to_complete': timedelta(minutes=1),
             'is_public': True
         }
@@ -215,7 +228,7 @@ class HabitTestCase(APITestCase):
             'action': 'test-update',
             'is_enjoyable': True,
             'related_habit': None,
-            'periodicity': 'weekly',
+            'periodicity_every': 7,
             'time_to_complete': '00:01:00',
             'is_public': True,
             'reward': None
@@ -277,7 +290,7 @@ class HabitPublicListTestCase(APITestCase):
                     'action': 'test',
                     'is_enjoyable': True,
                     'related_habit': None,
-                    'periodicity': 'daily',
+                    'periodicity_every': 1,
                     'time_to_complete': '00:01:00',
                     'reward': None,
                     'user': {'avatar': None,
@@ -307,7 +320,7 @@ class HabitPublicListTestCase(APITestCase):
                     'action': 'test',
                     'is_enjoyable': True,
                     'related_habit': None,
-                    'periodicity': 'daily',
+                    'periodicity_every': 1,
                     'time_to_complete': '00:01:00',
                     'reward': None,
                     'user': {'avatar': None,
