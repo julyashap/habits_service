@@ -49,5 +49,5 @@ class PeriodicityValidator:
     def __call__(self, value):
         every = dict(value).get('periodicity_every')
 
-        if every > 7:
+        if every is not None and every > 7:
             raise ValidationError('Привычку нельзя выполнять реже, чем раз в неделю!')
