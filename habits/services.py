@@ -32,17 +32,11 @@ def send_tg_message(habit_pk):
                            f'по URL-адресу: {reverse("habits:tg_bot_link")}')
 
 
-def create_periodic_task(periodicity, habit_pk):
-    every = 1
+def create_periodic_task(every, time, habit_pk):
     period = IntervalSchedule.DAYS
-
-    if periodicity == 'hourly':
-        period = IntervalSchedule.HOURS
-    elif periodicity == 'weekly':
-        every = 7
-
     schedule = IntervalSchedule.objects.create(every=every, period=period)
-    start_time = Habit.objects.get(pk=habit_pk).time.astimezone(ZONE) + timedelta(minutes=2)
+
+    start_time = time.astimezone(ZONE) + timedelta(minutes=2)
 
     PeriodicTask.objects.create(
         interval=schedule,
