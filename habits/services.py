@@ -1,5 +1,5 @@
 import json
-from datetime import datetime, timedelta
+from datetime import datetime
 import pytz
 import requests
 from django_celery_beat.models import IntervalSchedule, PeriodicTask
