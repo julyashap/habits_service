@@ -1,0 +1,70 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - backend
+    command: bash -c "
+      python manage.py migrate
+      && python manage.py runserver 0.0.0.0:8000
+      "
+
+  db:
+    image: postgres
+    networks:
+      - backend
+    env_file:
+      - /.env
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: [ "CMD-SHELL", "-c", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+  redis:
+    image: redis
+    networks:
+      - backend
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  celery:
+    build: .
+    networks:
+      - backend
+    volumes:
+      - .:/app
+    command: celery -A config worker --pool=solo --loglevel=info
+    depends_on:
+      - web
+    env_file:
+      - /.env
+
+  celery-beat:
+    build: .
+    networks:
+      - backend
+    volumes:
+      - .:/app
+    command: celery -A config beat --loglevel=info
+    depends_on:
+      - celery
+    env_file:
+      - /.env
+
+networks:
+  backend:
+    external: false
